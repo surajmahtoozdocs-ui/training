@@ -135,8 +135,81 @@
 				
 									<p class="help-block"><spring:theme code="checkout.multi.paymentMethod.seeOrderSummaryForMoreInformation"/></p>							
 								
-									</form:form>
+								</form:form>
 							</ycommerce:testId>
+							
+							<c:if test="${razorpayEnabled}">
+								<hr/>
+								<div class="razorpay-payment-container" style="margin-top: 20px; margin-bottom: 20px; padding: 15px; border: 1px dashed #28a745; border-radius: 6px; background-color: #f4faf6; text-align: center;">
+									<h4 style="color: #28a745; font-weight: bold; margin-top: 0;"><span class="glyphicon glyphicon-credit-card"></span> Pay with Razorpay</h4>
+									<p style="font-size: 13px; color: #555; margin-bottom: 15px;">Secure checkout using UPI, Netbanking, Credit/Debit cards, or Wallets.</p>
+									<button type="button" id="razorpay-pay-button" class="btn btn-success btn-block" style="font-weight: bold; font-size: 15px; padding: 10px; background-color: #28a745; border-color: #28a745;">Pay Securely via Razorpay</button>
+								</div>
+								
+								<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+								<script type="text/javascript">
+									document.getElementById('razorpay-pay-button').onclick = function(e) {
+										e.preventDefault();
+										var payButton = this;
+										payButton.disabled = true;
+										payButton.innerText = "Initializing Razorpay payment...";
+										
+										$.ajax({
+											url: '${request.contextPath}/checkout/multi/payment-method/razorpay/create-order',
+											type: 'POST',
+											beforeSend: function(xhr) {
+												var csrfToken = $("input[name='_csrf']").val();
+												if (csrfToken) {
+													xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+												}
+											},
+											success: function(data) {
+												if (data && data.orderId) {
+													var options = {
+														"key": data.keyId,
+														"amount": data.amount,
+														"currency": data.currency,
+														"name": "Electronics Store",
+														"description": "Checkout Payment",
+														"order_id": data.orderId,
+														"handler": function (response) {
+															window.location.href = '${request.contextPath}/checkout/multi/payment-method/razorpay/verify-payment' +
+																'?paymentId=' + response.razorpay_payment_id +
+																'&orderId=' + response.razorpay_order_id +
+																'&signature=' + response.razorpay_signature;
+														},
+														"modal": {
+															"ondismiss": function() {
+																payButton.disabled = false;
+																payButton.innerText = "Pay Securely via Razorpay";
+															}
+														},
+														"prefill": {
+															"name": data.userName || "",
+															"email": data.userEmail || ""
+														},
+														"theme": {
+															"color": "#28a745"
+														}
+													};
+													var rzp = new Razorpay(options);
+													rzp.open();
+												} else {
+													alert("Error initializing payment: " + (data.message || "Unknown error"));
+													payButton.disabled = false;
+													payButton.innerText = "Pay Securely via Razorpay";
+												}
+											},
+											error: function(xhr, status, error) {
+												alert("Failed to connect to payment gateway. Please try again.");
+												payButton.disabled = false;
+												payButton.innerText = "Pay Securely via Razorpay";
+											}
+										});
+									};
+								</script>
+							</c:if>
+							
                          </div>
                     </div>
 
