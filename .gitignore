@@ -1,0 +1,40 @@
+# Ignore standard platform and OOTB modules
+/bin/platform/
+/bin/modules/
+/bin/ext-template/
+/bin/ext-commerce/
+/bin/ext-content/
+/bin/ext-channel/
+/bin/ext-integration/
+/bin/ext-addon/
+/bin/ext-backoffice/
+/bin/ext-deprecated/
+/bin/ext-smartedit/
+
+# Ignore database, logs, temp and other dynamic directories
+/data/
+/log/
+/temp/
+/tomcat/
+/config/licence/
+/config/security/
+
+# Ignore build artifacts and generated code
+**/gensrc/
+**/classes/
+**/eclipsebin/
+**/*.class
+**/*.jar
+**/*.war
+
+# Ignore user/developer-specific property overrides
+/config/local.properties
+/config/localextensions.xml.bak
+
+# Ignore IDE specific files
+.project
+.classpath
+.settings/
+.idea/
+*.iml
+.DS_Store

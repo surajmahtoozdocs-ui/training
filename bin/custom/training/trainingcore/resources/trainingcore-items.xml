@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="items.xsd">
+
+    <collectiontypes>
+        <collectiontype code="GenderList" elementtype="Gender" autocreate="true" generate="true" type="list"/>
+        <collectiontype code="SwatchColorSet" elementtype="SwatchColorEnum" autocreate="true" generate="true"
+                        type="set"/>
+    </collectiontypes>
+
+    <enumtypes>
+        <enumtype generate="true" code="SwatchColorEnum" autocreate="true" dynamic="true">
+            <value code="BLACK"/>
+            <value code="BLUE"/>
+            <value code="BROWN"/>
+            <value code="GREEN"/>
+            <value code="GREY"/>
+            <value code="ORANGE"/>
+            <value code="PINK"/>
+            <value code="PURPLE"/>
+            <value code="RED"/>
+            <value code="SILVER"/>
+            <value code="WHITE"/>
+            <value code="YELLOW"/>
+        </enumtype>
+    </enumtypes>
+
+    <itemtypes>
+
+        <!-- Add your item definitions here -->
+
+
+        <!-- TypeGroups are for structure of this file only -->
+
+        <typegroup name="Apparel">
+            <itemtype code="ApparelProduct" extends="Product"
+                      autocreate="true" generate="true"
+                      jaloclass="com.training.core.jalo.ApparelProduct">
+                <description>Base apparel product extension that contains additional attributes.</description>
+                <attributes>
+                    <attribute qualifier="genders" type="GenderList">
+                        <description>List of genders that the ApparelProduct is designed for</description>
+                        <modifiers/>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+            </itemtype>
+
+            <itemtype code="ApparelStyleVariantProduct" extends="VariantProduct"
+                      autocreate="true" generate="true"
+                      jaloclass="com.training.core.jalo.ApparelStyleVariantProduct">
+                <description>Apparel style variant type that contains additional attribute describing variant style.
+                </description>
+                <attributes>
+                    <attribute qualifier="style" type="localized:java.lang.String"
+                               metatype="VariantAttributeDescriptor">
+                        <description>Color/Pattern of the product.</description>
+                        <modifiers/>
+                        <persistence type="property"/>
+                    </attribute>
+
+                    <attribute qualifier="swatchColors" type="SwatchColorSet">
+                        <description>A normalized color mapping to a standardized front-end navigable name.
+                        </description>
+                        <modifiers/>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+
+            </itemtype>
+
+            <itemtype code="ApparelSizeVariantProduct" extends="ApparelStyleVariantProduct"
+                      autocreate="true" generate="true"
+                      jaloclass="com.training.core.jalo.ApparelSizeVariantProduct">
+                <description>Apparel size variant type that contains additional attribute describing variant size.
+                </description>
+                <attributes>
+                    <attribute qualifier="size" type="localized:java.lang.String"
+                               metatype="VariantAttributeDescriptor">
+                        <description>Size of the product.</description>
+                        <modifiers/>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+            </itemtype>
+        </typegroup>
+
+        <typegroup name="Electronics">
+            <itemtype code="ElectronicsColorVariantProduct" extends="VariantProduct"
+                      autocreate="true" generate="true"
+                      jaloclass="com.training.core.jalo.ElectronicsColorVariantProduct">
+                <description>Electronics color variant type that contains additional attribute describing variant color.
+                </description>
+                <attributes>
+                    <attribute qualifier="color" type="localized:java.lang.String"
+                               metatype="VariantAttributeDescriptor">
+                        <description>Color of the product.</description>
+                        <modifiers/>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+            </itemtype>
+        </typegroup>
+
+        <typegroup name="trainingElectronics">
+        <itemtype code="ElectronicsProduct"
+          extends="Product"
+          jaloclass="com.training.jalo.ElectronicsProduct">
+
+    <attributes>
+
+        <attribute qualifier="brand" type="java.lang.String">
+            <modifiers optional="true"/>
+            <persistence type="property"/>
+        </attribute>
+
+        <attribute qualifier="modelNumber" type="java.lang.String">
+            <modifiers optional="true"/>
+            <persistence type="property"/>
+        </attribute>
+
+        <attribute qualifier="batteryCapacity" type="java.lang.String">
+            <modifiers optional="true"/>
+            <persistence type="property"/>
+        </attribute>
+
+        <attribute qualifier="operatingSystem" type="java.lang.String">
+            <modifiers optional="true"/>
+            <persistence type="property"/>
+        </attribute>
+
+        <attribute qualifier="warrantyMonths" type="java.lang.Integer">
+            <modifiers optional="true"/>
+            <persistence type="property"/>
+        </attribute>
+
+        <attribute qualifier="customDescription" type="java.lang.String">
+            <modifiers optional="true"/>
+            <persistence type="property"/>
+        </attribute>
+
+        <attribute qualifier="customScore" type="java.lang.Integer">
+            <modifiers optional="true"/>
+            <persistence type="property"/>
+        </attribute>
+    </attributes>
+
+
+            
+</itemtype>
+        </typegroup>
+
+        <typegroup name="trainingPriceRow">
+            <itemtype code="PriceRow" autocreate="false" generate="false">
+                <attributes>
+                    <attribute qualifier="approvalStatus" type="ArticleApprovalStatus">
+                        <description>Approval status of the price row</description>
+                        <persistence type="property"/>
+                        <defaultvalue>emitted(de.hybris.platform.core.enums.ArticleApprovalStatus.check)</defaultvalue>
+                    </attribute>
+                </attributes>
+            </itemtype>
+        </typegroup>
+
+        <typegroup name="trainingAddress">
+            <itemtype code="Address" autocreate="false" generate="false">
+                <attributes>
+                    <attribute qualifier="deliveryInstructions" type="java.lang.String">
+                        <description>Special delivery instructions for this address</description>
+                        <persistence type="property"/>
+                        <modifiers read="true" write="true" search="true" optional="true"/>
+                    </attribute>
+                </attributes>
+            </itemtype>
+        </typegroup>
+
+    </itemtypes>
+</items>

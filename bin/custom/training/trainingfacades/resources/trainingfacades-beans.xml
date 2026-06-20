@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="beans.xsd">
+
+	<bean class="de.hybris.platform.commercefacades.product.data.ProductData">
+		<property name="genders" type="java.util.List&lt;com.training.facades.product.data.GenderData>"/>
+		<property name="customDescription" type="String"/>
+		<property name="customScoreStars" type="String"/>
+	</bean>
+
+	<bean class="com.training.facades.product.data.GenderData">
+		<property name="code" type="String"/>
+		<property name="name" type="String"/>
+	</bean>
+
+	<bean class="com.training.facades.user.data.CustomerLoyaltyData">
+		<property name="userId" type="String"/>
+		<property name="loyaltyPoints" type="Integer"/>
+		<property name="loyaltyTier" type="String"/>
+		<property name="memberSince" type="String"/>
+	</bean>
+
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO">
+		<property name="customDescription" type="String"/>
+		<property name="customScoreStars" type="String"/>
+	</bean>
+
+	<bean class="de.hybris.platform.commercefacades.order.data.CartData"
+	      extends="de.hybris.platform.commercefacades.order.data.AbstractOrderData">
+		<property name="estimatedLoyaltyPoints" type="Integer"/>
+	</bean>
+
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.order.CartWsDTO"
+	      extends="de.hybris.platform.commercewebservicescommons.dto.order.AbstractOrderWsDTO">
+		<property name="estimatedLoyaltyPoints" type="Integer"/>
+	</bean>
+
+	<bean class="de.hybris.platform.commercefacades.order.data.DeliveryModeData">
+		<property name="customDeliveryNotes" type="String"/>
+	</bean>
+
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.order.DeliveryModeWsDTO">
+		<property name="customDeliveryNotes" type="String"/>
+	</bean>
+
+	<bean class="de.hybris.platform.commercefacades.order.data.OrderData"
+	      extends="de.hybris.platform.commercefacades.order.data.AbstractOrderData">
+		<property name="loyaltyPointsEarned" type="Integer"/>
+	</bean>
+
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.order.OrderWsDTO"
+	      extends="de.hybris.platform.commercewebservicescommons.dto.order.AbstractOrderWsDTO">
+		<property name="loyaltyPointsEarned" type="Integer"/>
+	</bean>
+
+	<bean class="de.hybris.platform.commercefacades.user.data.AddressData">
+		<property name="deliveryInstructions" type="String"/>
+	</bean>
+
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO">
+		<property name="deliveryInstructions" type="String"/>
+	</bean>
+</beans>

@@ -1,0 +1,17 @@
+# Create test users and assign them to correct groups
+INSERT_UPDATE Employee;uid[unique=true];groups(uid)[mode=append];password[default='password'];name
+;prodmanager;productmanagergroup,backofficeadmingroup,employeegroup;;Product Manager
+;marketingmanager;marketingmanagergroup,backofficeadmingroup,employeegroup;;Marketing Manager
+;financemanager;financemanagergroup,backofficeadmingroup,employeegroup;;Finance Manager
+
+# Create a test product in Staged with 'check' status
+INSERT_UPDATE Product;code[unique=true];catalogVersion(catalog(id),version)[unique=true];name[lang=en];approvalStatus(code)[default='check']
+;workflowTestProduct;electronicsProductCatalog:Staged;"Workflow Test Product";check
+
+# Create a test Promotion Source Rule
+INSERT_UPDATE PromotionSourceRule;code[unique=true];name[lang=en];status(code)[default='UNPUBLISHED'];website(identifier)[default='electronicsPromoGrp']
+;workflowTestPromotion;"Workflow Test Promotion";UNPUBLISHED;electronicsPromoGrp
+
+# Create a test PriceRow on our test product
+INSERT_UPDATE PriceRow;product(code,catalogVersion(catalog(id),version))[unique=true];catalogVersion(catalog(id),version)[unique=true];price;currency(isocode)[unique=true];unit(code)[unique=true];approvalStatus(code)[default='check']
+;workflowTestProduct:electronicsProductCatalog:Staged;electronicsProductCatalog:Staged;99.99;USD;pieces;check

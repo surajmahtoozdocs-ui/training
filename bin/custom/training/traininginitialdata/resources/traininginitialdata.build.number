@@ -1,0 +1,11 @@
+#Ant properties
+#Tue Jan 17 12:59:25 CET 2023
+version.api=2205
+vendor=hybris
+group.id=de.hybris.platform
+name=traininginitialdata
+description=traininginitialdata
+builddate=20230117 1258
+releasedate=20220601 2009
+version=2205.8
+module.name=platform-module

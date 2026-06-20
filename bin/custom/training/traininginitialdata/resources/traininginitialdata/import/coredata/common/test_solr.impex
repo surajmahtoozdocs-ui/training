@@ -1,0 +1,7 @@
+# Create PriceRow directly in Online catalog for search visibility
+INSERT_UPDATE PriceRow;product(code,catalogVersion(catalog(id),version))[unique=true];catalogVersion(catalog(id),version)[unique=true];price;currency(isocode)[unique=true];unit(code)[unique=true];approvalStatus(code)[default='approved']
+;workflowTestProduct:electronicsProductCatalog:Online;electronicsProductCatalog:Online;99.99;USD;pieces;approved
+
+# Create stock level for the test product in the Online catalog
+INSERT_UPDATE StockLevel;available;warehouse(code)[unique=true];inStockStatus(code);maxPreOrder;maxStockLevelHistoryCount;overSelling;preOrder;productCode[unique=true];reserved
+;10;warehouse_s;forceInStock;0;0;0;0;workflowTestProduct;0

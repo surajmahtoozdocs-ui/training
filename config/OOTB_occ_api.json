@@ -1,0 +1,281 @@
+{
+	"info": {
+		"_postman_id": "9b1deb4d-3b7d-4ba2-9f37-124b171c7788",
+		"name": "SAP Commerce OCC API",
+		"description": "Out-of-the-box OCC API collection for testing search, products, carts, and OAuth authentication on localhost.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Get Client Credentials Token (trusted_client)",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "secret",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "trusted_client",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/authorizationserver/oauth/token",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"authorizationserver",
+								"oauth",
+								"token"
+							]
+						},
+						"description": "Obtain an access token for client-level/anonymous operations (e.g. searching products, viewing catalog details)."
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Password Token (mobile_android)",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "secret",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "mobile_android",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "democustomer",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "1234",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/authorizationserver/oauth/token",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"authorizationserver",
+								"oauth",
+								"token"
+							]
+						},
+						"description": "Obtain an access token for a specific customer (e.g. democustomer) to view personal carts, profile info, and order history."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Product Search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest/v2/{{siteId}}/products/search?query=t-shirt&fields=DEFAULT",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest",
+								"v2",
+								"{{siteId}}",
+								"products",
+								"search"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "t-shirt"
+								},
+								{
+									"key": "fields",
+									"value": "DEFAULT"
+								}
+							]
+						},
+						"description": "Search products in the catalog using a search query keyword."
+					},
+					"response": []
+				},
+				{
+					"name": "Product Details (T001)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest/v2/{{siteId}}/products/T001?fields=FULL",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest",
+								"v2",
+								"{{siteId}}",
+								"products",
+								"T001"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "FULL"
+								}
+							]
+						},
+						"description": "Get detailed attributes and variant choices for custom product T001."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Carts",
+			"item": [
+				{
+					"name": "Create Anonymous Cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest/v2/{{siteId}}/users/anonymous/carts?fields=DEFAULT",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest",
+								"v2",
+								"{{siteId}}",
+								"users",
+								"anonymous",
+								"carts"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "DEFAULT"
+								}
+							]
+						},
+						"description": "Create an anonymous shopping cart session."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Cart Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest/v2/{{siteId}}/users/anonymous/carts/{{cartId}}?fields=DEFAULT",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest",
+								"v2",
+								"{{siteId}}",
+								"users",
+								"anonymous",
+								"carts",
+								"{{cartId}}"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "DEFAULT"
+								}
+							]
+						},
+						"description": "Retrieve details of a specific cart using its guid (cartId)."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://localhost:9002",
+			"type": "string"
+		},
+		{
+			"key": "siteId",
+			"value": "electronics",
+			"type": "string"
+		},
+		{
+			"key": "cartId",
+			"value": "replace-with-guid-received-from-create-cart",
+			"type": "string"
+		}
+	]
+}

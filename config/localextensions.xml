@@ -1,0 +1,116 @@
+<hybrisconfig xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='../bin/platform/resources/schemas/extensions.xsd'>
+  <extensions>
+    <path dir='${HYBRIS_BIN_DIR}' autoload='false' />
+
+
+
+      <!-- ===================================================== -->
+    <!-- PLATFORM -->
+    <!-- ===================================================== -->
+
+    <extension name='core'/>
+    <extension name='processing'/>
+    <extension name='catalog'/>
+    <extension name='impex'/>
+    <extension name='validation'/>
+
+    <!-- ===================================================== -->
+    <!-- COMMERCE FOUNDATION -->
+    <!-- ===================================================== -->
+
+ <extension name="commercewebservicescommons"/>
+<extension name="webservicescommons"/>
+<extension name="oauth2"/>
+      <extension name="ycommercewebservices"/>
+
+    <!-- ===================================================== -->
+    <!-- PRODUCT / PCM -->
+    <!-- ===================================================== -->
+
+    <extension name='pcmbackoffice'/>
+
+    <!-- ===================================================== -->
+    <!-- CMS / SMARTEDIT -->
+    <!-- ===================================================== -->
+
+    <extension name='cms2'/>
+    <extension name='cmsfacades'/>
+    <extension name='cmswebservices'/>
+    <extension name='cmssmartedit'/>
+    <extension name='smarteditwebservices'/>
+    <extension name='cmsbackoffice'/>
+
+    <!-- ===================================================== -->
+    <!-- SEARCH / SOLR -->
+    <!-- ===================================================== -->
+
+    <extension name='solrfacetsearch'/>
+    <extension name='solrserver'/>
+
+    <!-- ===================================================== -->
+    <!-- CART / CHECKOUT -->
+    <!-- ===================================================== -->
+
+
+    <!-- ===================================================== -->
+    <!-- PROMOTIONS / DROOLS -->
+    <!-- ===================================================== -->
+
+    <extension name='promotionengineservices'/>
+    <extension name='ruleengineservices'/>
+    <extension name='droolsruleengineservices'/>
+    <extension name='couponservices'/>
+
+    <!-- ===================================================== -->
+    <!-- WORKFLOW -->
+    <!-- ===================================================== -->
+
+    <extension name='workflow'/>
+
+    <!-- ===================================================== -->
+    <!-- BUSINESS PROCESS / EMAIL -->
+    <!-- ===================================================== -->
+
+    <extension name='acceleratorservices'/>
+
+    <!-- ===================================================== -->
+    <!-- INVENTORY / WAREHOUSING -->
+    <!-- ===================================================== -->
+
+    <extension name='warehousing'/>
+    <extension name='warehousingfacades'/>
+    <extension name='stocknotificationservices'/>
+
+    <!-- ===================================================== -->
+    <!-- SECURITY / OAUTH -->
+    <!-- ===================================================== -->
+
+    <extension name='oauth2'/>
+    <extension name='webservicescommons'/>
+
+    <!-- ===================================================== -->
+    <!-- OCC -->
+    <!-- ===================================================== -->
+
+
+    <!-- ===================================================== -->
+    <!-- BACKOFFICE -->
+    <!-- ===================================================== -->
+
+    <extension name='backoffice'/>
+    <extension name='platformbackoffice'/>
+
+    <!-- ===================================================== -->
+    <!-- CUSTOM EXTENSIONS -->
+    <!-- ===================================================== -->
+    <extension name='trainingfulfilmentprocess'/>
+    <extension name='traininginitialdata'/>
+    <extension name='trainingtest'/>
+    <extension name='trainingstorefront'/>
+<extension name='trainingcore'/>
+<extension name='trainingbackoffice'/>
+      <extension name='trainingfacades'/>
+
+
+  </extensions>
+</hybrisconfig>

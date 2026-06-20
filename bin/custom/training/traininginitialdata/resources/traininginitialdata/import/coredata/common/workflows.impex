@@ -1,0 +1,93 @@
+# User Groups for Workflows
+INSERT_UPDATE UserGroup;UID[unique=true];groups(uid)[mode=append]
+;productmanagergroup;employeegroup
+;marketingmanagergroup;employeegroup
+;financemanagergroup;employeegroup
+
+# Grant permissions to workflow groups
+$START_USERRIGHTS;;;;;;;;;
+Type;UID;MemberOfGroups;Password;Target;read;change;create;remove;change_perm
+UserGroup;productmanagergroup;;;;;;;;
+;;;;Workflow;+;;;;;
+;;;;WorkflowAction;+;;;;;
+UserGroup;marketingmanagergroup;;;;;;;;
+;;;;Workflow;+;;;;;
+;;;;WorkflowAction;+;;;;;
+UserGroup;financemanagergroup;;;;;;;;
+;;;;Workflow;+;;;;;
+;;;;WorkflowAction;+;;;;;
+$END_USERRIGHTS;;;;;
+
+# 1. Product Approval Workflow
+INSERT_UPDATE WorkflowTemplate;code[unique=true];name[lang=en];owner(uid);description[lang=en]
+;ProductApprovalWorkflow;"Product Approval Workflow";admin;"Workflow to review and synchronize products"
+
+INSERT_UPDATE WorkflowActionTemplate;code[unique=true];workflow(code)[unique=true];name[lang=en];actionType(code);principalAssigned(uid);sendEmail[default=false]
+;ProdApp_startAction;ProductApprovalWorkflow;"Start Action";start;admin;
+;ProdApp_reviewAction;ProductApprovalWorkflow;"Product Manager Review";normal;productmanagergroup;true
+;ProdApp_endAction;ProductApprovalWorkflow;"End Action";end;admin;
+
+INSERT_UPDATE AutomatedWorkflowActionTemplate;code[unique=true];workflow(code)[unique=true];name[lang=en];actionType(code);principalAssigned(uid);jobHandler
+;ProdApp_syncAction;ProductApprovalWorkflow;"Auto-Synchronize Product";normal;admin;productApprovalSyncJob
+
+INSERT_UPDATE WorkflowDecisionTemplate;code[unique=true];name[lang=en];actionTemplate(code)
+;ProdApp_startDecision;"Start";ProdApp_startAction
+;ProdApp_approveDecision;"Approve and Sync";ProdApp_reviewAction
+;ProdApp_rejectDecision;"Reject and Edit";ProdApp_reviewAction
+;ProdApp_syncDecision;"Sync Finished";ProdApp_syncAction
+
+INSERT_UPDATE WorkflowActionTemplateLinkTemplateRelation;source(code)[unique=true];target(code)[unique=true];andConnectionTemplate;qualifier
+;ProdApp_startDecision;ProdApp_reviewAction;false;WorkflowActionTemplateLinkTemplateRelation
+;ProdApp_approveDecision;ProdApp_syncAction;false;WorkflowActionTemplateLinkTemplateRelation
+;ProdApp_rejectDecision;ProdApp_reviewAction;false;WorkflowActionTemplateLinkTemplateRelation
+;ProdApp_syncDecision;ProdApp_endAction;false;WorkflowActionTemplateLinkTemplateRelation
+
+
+# 2. Promotion Approval Workflow
+INSERT_UPDATE WorkflowTemplate;code[unique=true];name[lang=en];owner(uid);description[lang=en]
+;PromotionApprovalWorkflow;"Promotion Approval Workflow";admin;"Workflow to review and activate promotions"
+
+INSERT_UPDATE WorkflowActionTemplate;code[unique=true];workflow(code)[unique=true];name[lang=en];actionType(code);principalAssigned(uid);sendEmail[default=false]
+;PromoApp_startAction;PromotionApprovalWorkflow;"Start Action";start;admin;
+;PromoApp_reviewAction;PromotionApprovalWorkflow;"Marketing Manager Review";normal;marketingmanagergroup;true
+;PromoApp_endAction;PromotionApprovalWorkflow;"End Action";end;admin;
+
+INSERT_UPDATE AutomatedWorkflowActionTemplate;code[unique=true];workflow(code)[unique=true];name[lang=en];actionType(code);principalAssigned(uid);jobHandler
+;PromoApp_activationAction;PromotionApprovalWorkflow;"Auto-Activate Promotion";normal;admin;promotionActivationJob
+
+INSERT_UPDATE WorkflowDecisionTemplate;code[unique=true];name[lang=en];actionTemplate(code)
+;PromoApp_startDecision;"Start";PromoApp_startAction
+;PromoApp_approveDecision;"Approve & Activate";PromoApp_reviewAction
+;PromoApp_rejectDecision;"Reject";PromoApp_reviewAction
+;PromoApp_activationDecision;"Activation Finished";PromoApp_activationAction
+
+INSERT_UPDATE WorkflowActionTemplateLinkTemplateRelation;source(code)[unique=true];target(code)[unique=true];andConnectionTemplate;qualifier
+;PromoApp_startDecision;PromoApp_reviewAction;false;WorkflowActionTemplateLinkTemplateRelation
+;PromoApp_approveDecision;PromoApp_activationAction;false;WorkflowActionTemplateLinkTemplateRelation
+;PromoApp_rejectDecision;PromoApp_reviewAction;false;WorkflowActionTemplateLinkTemplateRelation
+;PromoApp_activationDecision;PromoApp_endAction;false;WorkflowActionTemplateLinkTemplateRelation
+
+
+# 3. Price Approval Workflow
+INSERT_UPDATE WorkflowTemplate;code[unique=true];name[lang=en];owner(uid);description[lang=en]
+;PriceApprovalWorkflow;"Price Approval Workflow";admin;"Workflow to review and approve prices"
+
+INSERT_UPDATE WorkflowActionTemplate;code[unique=true];workflow(code)[unique=true];name[lang=en];actionType(code);principalAssigned(uid);sendEmail[default=false]
+;PriceApp_startAction;PriceApprovalWorkflow;"Start Action";start;admin;
+;PriceApp_reviewAction;PriceApprovalWorkflow;"Finance Manager Review";normal;financemanagergroup;true
+;PriceApp_endAction;PriceApprovalWorkflow;"End Action";end;admin;
+
+INSERT_UPDATE AutomatedWorkflowActionTemplate;code[unique=true];workflow(code)[unique=true];name[lang=en];actionType(code);principalAssigned(uid);jobHandler
+;PriceApp_approvePriceAction;PriceApprovalWorkflow;"Auto-Approve Price";normal;admin;priceApprovalActivationJob
+
+INSERT_UPDATE WorkflowDecisionTemplate;code[unique=true];name[lang=en];actionTemplate(code)
+;PriceApp_startDecision;"Start";PriceApp_startAction
+;PriceApp_approveDecision;"Approve Price";PriceApp_reviewAction
+;PriceApp_rejectDecision;"Reject Price";PriceApp_reviewAction
+;PriceApp_approvePriceDecision;"Approval Finished";PriceApp_approvePriceAction
+
+INSERT_UPDATE WorkflowActionTemplateLinkTemplateRelation;source(code)[unique=true];target(code)[unique=true];andConnectionTemplate;qualifier
+;PriceApp_startDecision;PriceApp_reviewAction;false;WorkflowActionTemplateLinkTemplateRelation
+;PriceApp_approveDecision;PriceApp_approvePriceAction;false;WorkflowActionTemplateLinkTemplateRelation
+;PriceApp_rejectDecision;PriceApp_reviewAction;false;WorkflowActionTemplateLinkTemplateRelation
+;PriceApp_approvePriceDecision;PriceApp_endAction;false;WorkflowActionTemplateLinkTemplateRelation
