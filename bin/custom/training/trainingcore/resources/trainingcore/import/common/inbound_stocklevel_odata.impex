@@ -1,0 +1,16 @@
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+; InboundStockLevel ; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]
+; InboundStockLevel ; StockLevel ; StockLevel ; true
+; InboundStockLevel ; Warehouse  ; Warehouse  ;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique; autoCreate[default = false]
+; InboundStockLevel:StockLevel ; productCode ; StockLevel:productCode ; ; true ;
+; InboundStockLevel:StockLevel ; warehouse   ; StockLevel:warehouse   ; InboundStockLevel:Warehouse ; true ;
+; InboundStockLevel:StockLevel ; available   ; StockLevel:available   ; ; ;
+
+; InboundStockLevel:Warehouse  ; code        ; Warehouse:code        ; ; true ;
+
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]; authenticationType(code)
+; InboundStockLevel ; BASIC
