@@ -1,0 +1,44 @@
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+; InboundOrder ; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]
+; InboundOrder ; Order          ; Order          ; true
+; InboundOrder ; OrderEntry     ; OrderEntry     ;
+; InboundOrder ; Product        ; Product        ;
+; InboundOrder ; CatalogVersion ; CatalogVersion ;
+; InboundOrder ; Catalog        ; Catalog        ;
+; InboundOrder ; User           ; User           ;
+; InboundOrder ; Currency       ; Currency       ;
+; InboundOrder ; DeliveryMode   ; DeliveryMode   ;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); autoCreate[default = false]
+; InboundOrder:Order          ; code           ; Order:code           ; ;
+; InboundOrder:Order          ; totalPrice     ; Order:totalPrice     ; ;
+; InboundOrder:Order          ; currency       ; Order:currency       ; InboundOrder:Currency       ;
+; InboundOrder:Order          ; user           ; Order:user           ; InboundOrder:User           ;
+; InboundOrder:Order          ; date           ; Order:date           ; ;
+; InboundOrder:Order          ; deliveryMode   ; Order:deliveryMode   ; InboundOrder:DeliveryMode   ;
+; InboundOrder:Order          ; entries        ; Order:entries        ; InboundOrder:OrderEntry     ;
+
+; InboundOrder:OrderEntry     ; entryNumber    ; OrderEntry:entryNumber  ; ;
+; InboundOrder:OrderEntry     ; product        ; OrderEntry:product      ; InboundOrder:Product        ;
+; InboundOrder:OrderEntry     ; quantity       ; OrderEntry:quantity     ; ;
+; InboundOrder:OrderEntry     ; basePrice      ; OrderEntry:basePrice    ; ;
+; InboundOrder:OrderEntry     ; order          ; OrderEntry:order        ; InboundOrder:Order          ;
+
+; InboundOrder:Product        ; code           ; Product:code           ; ;
+; InboundOrder:Product        ; catalogVersion ; Product:catalogVersion ; InboundOrder:CatalogVersion ;
+
+; InboundOrder:CatalogVersion ; version        ; CatalogVersion:version ; ;
+; InboundOrder:CatalogVersion ; catalog        ; CatalogVersion:catalog ; InboundOrder:Catalog        ;
+
+; InboundOrder:Catalog        ; id             ; Catalog:id             ; ;
+
+; InboundOrder:User           ; uid            ; User:uid            ; ;
+
+; InboundOrder:Currency       ; isocode        ; Currency:isocode        ; ;
+
+; InboundOrder:DeliveryMode   ; code           ; DeliveryMode:code       ; ;
+
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]; authenticationType(code)
+; InboundOrder ; BASIC
