@@ -1,0 +1,29 @@
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+; InboundProduct ; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]
+; InboundProduct ; Product               ; Product               ; true
+; InboundProduct ; CatalogVersion        ; CatalogVersion        ;
+; InboundProduct ; Catalog               ; Catalog               ;
+; InboundProduct ; Category              ; Category              ;
+; InboundProduct ; ArticleApprovalStatus ; ArticleApprovalStatus ;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique; autoCreate[default = false]
+; InboundProduct:Product        ; code           ; Product:code           ; ; true ;
+; InboundProduct:Product        ; name           ; Product:name           ; ; ;
+; InboundProduct:Product        ; catalogVersion ; Product:catalogVersion ; InboundProduct:CatalogVersion ; true ;
+; InboundProduct:Product        ; approvalStatus ; Product:approvalStatus ; InboundProduct:ArticleApprovalStatus ; ;
+; InboundProduct:Product        ; description    ; Product:description    ; ; ;
+; InboundProduct:Product        ; supercategories; Product:supercategories; InboundProduct:Category       ; ;
+
+; InboundProduct:CatalogVersion ; version        ; CatalogVersion:version ; ; true ;
+; InboundProduct:CatalogVersion ; catalog        ; CatalogVersion:catalog ; InboundProduct:Catalog        ; true ;
+
+; InboundProduct:Catalog        ; id             ; Catalog:id             ; ; true ;
+
+; InboundProduct:Category       ; code           ; Category:code           ; ; true ;
+
+; InboundProduct:ArticleApprovalStatus ; code    ; ArticleApprovalStatus:code ; ; true ;
+
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]; authenticationType(code)
+; InboundProduct ; BASIC

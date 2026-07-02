@@ -44,6 +44,7 @@ public class CoreSystemSetup extends AbstractSystemSetup
 		importImpexFile(context, "/trainingcore/import/common/cronjobs.impex");
 		importImpexFile(context, "/trainingcore/import/common/inbound_order_odata.impex");
 		importImpexFile(context, "/trainingcore/import/common/inbound_stocklevel_odata.impex");
+		importImpexFile(context, "/trainingcore/import/common/inbound_product_odata.impex");
 	}
 
 	/**
