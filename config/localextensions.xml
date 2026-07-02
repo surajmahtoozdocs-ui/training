@@ -120,6 +120,9 @@
     <extension name="integrationbackoffice" />
       <extension name="inboundservices" />
       <extension name="integrationmonitoringbackoffice" />
+      <extension name="outboundservices" />
+      <extension name="outboundsync" />
+
 
   </extensions>
 </hybrisconfig>
