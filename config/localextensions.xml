@@ -111,6 +111,18 @@
 <extension name='trainingbackoffice'/>
       <extension name='trainingfacades'/>
 
+    <!-- ===================================================== -->
+    <!-- INTEGRATION APIS / ODATA -->
+    <!-- ===================================================== -->
+    <extension name="integrationservices" />
+    <extension name="odata2services" />
+    <extension name="odata2webservices" />
+    <extension name="integrationbackoffice" />
+      <extension name="inboundservices" />
+      <extension name="integrationmonitoringbackoffice" />
+      <extension name="outboundservices" />
+      <extension name="outboundsync" />
+
 
   </extensions>
 </hybrisconfig>
