@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<action-definition id="com.training.backoffice.actions.startorderprocessaction"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://www.hybris.com/schema/cockpitng/action-definition.xsd">
+	
+	<name>Start Order Process</name>
+	<description>Action to Start Order Process</description>
+	<author>hybris</author>
+	<version>1.0</version>
+	
+	<actionClassName>com.training.backoffice.actions.StartOrderProcessAction</actionClassName>
+
+	
+    <inputType>de.hybris.platform.core.model.order.OrderModel</inputType>
+	<outputType>java.lang.Object</outputType>
+	
+    <iconUri>process</iconUri>
+
+</action-definition>

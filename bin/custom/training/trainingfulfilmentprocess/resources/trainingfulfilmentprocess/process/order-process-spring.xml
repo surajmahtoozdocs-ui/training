@@ -93,6 +93,4 @@
 	<bean id="notifyCustomerAboutFraudAction" class="com.training.fulfilmentprocess.actions.order.NotifyCustomerAboutFraudAction"  parent="abstractAction">
 		<property name="eventService" ref="eventService"/>
 	</bean>
-
-
 </beans>

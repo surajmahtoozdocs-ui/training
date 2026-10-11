@@ -3,6 +3,8 @@
  */
 package com.training.facades.constants;
 
+import org.training.facades.constants.GeneratedTrainingFacadesConstants;
+
 /**
  * Global class for all TrainingFacades constants.
  */

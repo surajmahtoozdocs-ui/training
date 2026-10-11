@@ -1,0 +1,79 @@
+# ----------------------------------------------------------------
+# 1. OUTBOUND ORDER INTEGRATION OBJECT DEFINITION
+# ----------------------------------------------------------------
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+; OutboundOrder ; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]
+; OutboundOrder ; Order          ; Order          ; true
+; OutboundOrder ; OrderEntry     ; OrderEntry     ;
+; OutboundOrder ; Product        ; Product        ;
+; OutboundOrder ; CatalogVersion ; CatalogVersion ;
+; OutboundOrder ; Catalog        ; Catalog        ;
+; OutboundOrder ; User           ; User           ;
+; OutboundOrder ; Currency       ; Currency       ;
+; OutboundOrder ; DeliveryMode   ; DeliveryMode   ;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique; autoCreate[default = false]
+; OutboundOrder:Order          ; code           ; Order:code           ; ; true ;
+; OutboundOrder:Order          ; totalPrice     ; Order:totalPrice     ; ; ;
+; OutboundOrder:Order          ; currency       ; Order:currency       ; OutboundOrder:Currency       ; ;
+; OutboundOrder:Order          ; user           ; Order:user           ; OutboundOrder:User           ; ;
+; OutboundOrder:Order          ; date           ; Order:date           ; ; ;
+; OutboundOrder:Order          ; deliveryMode   ; Order:deliveryMode   ; OutboundOrder:DeliveryMode   ; ;
+; OutboundOrder:Order          ; entries        ; Order:entries        ; OutboundOrder:OrderEntry     ; ;
+
+; OutboundOrder:OrderEntry     ; entryNumber    ; OrderEntry:entryNumber  ; ; true ;
+; OutboundOrder:OrderEntry     ; product        ; OrderEntry:product      ; OutboundOrder:Product        ; ;
+; OutboundOrder:OrderEntry     ; quantity       ; OrderEntry:quantity     ; ; ;
+; OutboundOrder:OrderEntry     ; basePrice      ; OrderEntry:basePrice    ; ; ;
+; OutboundOrder:OrderEntry     ; order          ; OrderEntry:order        ; OutboundOrder:Order          ; true ;
+
+; OutboundOrder:Product        ; code           ; Product:code           ; ; true ;
+; OutboundOrder:Product        ; catalogVersion ; Product:catalogVersion ; OutboundOrder:CatalogVersion ; true ;
+
+; OutboundOrder:CatalogVersion ; version        ; CatalogVersion:version ; ; true ;
+; OutboundOrder:CatalogVersion ; catalog        ; CatalogVersion:catalog ; OutboundOrder:Catalog        ; true ;
+
+; OutboundOrder:Catalog        ; id             ; Catalog:id             ; ; true ;
+
+; OutboundOrder:User           ; uid            ; User:uid            ; ; true ;
+
+; OutboundOrder:Currency       ; isocode        ; Currency:isocode        ; ; true ;
+
+; OutboundOrder:DeliveryMode   ; code           ; DeliveryMode:code       ; ; true ;
+
+
+# ----------------------------------------------------------------
+# 2. OUTBOUND SYNC TARGET CONFIGURATIONS (CONSUMED DESTINATION)
+# ----------------------------------------------------------------
+INSERT_UPDATE Endpoint; id[unique = true]; name; specUrl; version[default = "v1"]
+; mockErpEndpoint ; mockErpEndpoint ; "https://httpbin.org/post" ; v1
+
+INSERT_UPDATE DestinationTarget; id[unique = true]
+; MockErpTarget
+
+INSERT_UPDATE BasicCredential; id[unique = true]; username; password
+; mockErpCred ; dummy ; dummy
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]; url; endpoint(id, version); destinationTarget(id); credential(id)
+; MockErpDestination ; "https://httpbin.org/post" ; mockErpEndpoint:v1 ; MockErpTarget ; mockErpCred
+
+
+# ----------------------------------------------------------------
+# 3. OUTBOUND SYNC CHANNEL AND JOBS CONFIGURATION
+# ----------------------------------------------------------------
+INSERT_UPDATE OutboundChannelConfiguration; code[unique = true]; integrationObject(code); destination(id)
+; MockErpOrderChannel ; OutboundOrder ; MockErpDestination
+
+INSERT_UPDATE OutboundSyncStreamConfigurationContainer; id[unique = true]
+; MockErpStreamContainer
+
+INSERT_UPDATE OutboundSyncJob; code[unique = true]; streamConfigurationContainer(id)
+; MockErpOrderSyncJob ; MockErpStreamContainer
+
+INSERT_UPDATE OutboundSyncStreamConfiguration; streamId[unique = true]; container(id); itemTypeForStream(code); outboundChannelConfiguration(code)
+; MockErpOrderStream ; MockErpStreamContainer ; Order ; MockErpOrderChannel
+
+INSERT_UPDATE OutboundSyncCronJob; code[unique = true]; job(code); sessionLanguage(isocode)
+; MockErpOrderCronJob ; MockErpOrderSyncJob ; en
