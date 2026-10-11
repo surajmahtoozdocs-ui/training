@@ -3,6 +3,7 @@
  */
 package com.training.fulfilmentprocess.constants;
 
+import org.training.fulfilmentprocess.constants.GeneratedTrainingFulfilmentProcessConstants;
 
 public final class TrainingFulfilmentProcessConstants extends GeneratedTrainingFulfilmentProcessConstants
 {

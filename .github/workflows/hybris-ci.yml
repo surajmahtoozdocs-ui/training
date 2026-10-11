@@ -26,7 +26,7 @@ jobs:
         run: |
           echo "Syncing updated custom extensions to Hybris workspace..."
           if [ -d "bin/custom/training" ]; then
-            rsync -av --delete bin/custom/training/ "$HYBRIS_DIR/bin/custom/training/"
+            rsync -av bin/custom/training/ "$HYBRIS_DIR/bin/custom/training/"
           fi
           if [ -f "config/localextensions.xml" ]; then
             cp config/localextensions.xml "$HYBRIS_DIR/config/localextensions.xml"

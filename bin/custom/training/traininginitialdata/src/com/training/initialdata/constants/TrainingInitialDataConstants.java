@@ -3,6 +3,8 @@
  */
 package com.training.initialdata.constants;
 
+import org.training.initialdata.constants.GeneratedTrainingInitialDataConstants;
+
 /**
  * Global class for all TrainingInitialData constants.
  */

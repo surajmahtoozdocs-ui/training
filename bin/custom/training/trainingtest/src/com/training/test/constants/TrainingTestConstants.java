@@ -3,6 +3,8 @@
  */
 package com.training.test.constants;
 
+import org.training.test.constants.GeneratedTrainingTestConstants;
+
 /**
  * 
  */

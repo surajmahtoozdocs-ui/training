@@ -6,6 +6,7 @@ package com.training.fulfilmentprocess.jalo;
 import de.hybris.platform.jalo.JaloSession;
 import de.hybris.platform.jalo.extension.ExtensionManager;
 import com.training.fulfilmentprocess.constants.TrainingFulfilmentProcessConstants;
+import org.training.fulfilmentprocess.jalo.GeneratedTrainingFulfilmentProcessManager;
 
 public class TrainingFulfilmentProcessManager extends GeneratedTrainingFulfilmentProcessManager
 {
