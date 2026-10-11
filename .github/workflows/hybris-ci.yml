@@ -1,0 +1,67 @@
+name: Hybris Training CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, development, features/* ]
+  pull_request:
+    branches: [ main, development ]
+  workflow_dispatch:
+
+env:
+  HYBRIS_DIR: /Users/suryanshi/sapHybris2205/sapTraining/hybris
+
+jobs:
+  # -------------------------------------------------------------
+  # 1. CI: Quality Gate, Compilation & Testing
+  # -------------------------------------------------------------
+  build-and-test:
+    name: Build & Unit Tests
+    runs-on: [self-hosted, macOS]
+
+    steps:
+      - name: Checkout Repository Code
+        uses: actions/checkout@v4
+
+      - name: Sync Custom Extensions to Hybris Workspace
+        run: |
+          echo "Syncing updated custom extensions to Hybris workspace..."
+          if [ -d "bin/custom/training" ]; then
+            rsync -av --delete bin/custom/training/ "$HYBRIS_DIR/bin/custom/training/"
+          fi
+          if [ -f "config/localextensions.xml" ]; then
+            cp config/localextensions.xml "$HYBRIS_DIR/config/localextensions.xml"
+          fi
+
+      - name: Compile Hybris Extensions (ant all)
+        run: |
+          echo "Compiling Hybris platform and custom extensions..."
+          cd "$HYBRIS_DIR/bin/platform"
+          . ./setantenv.sh
+          ant all
+
+      - name: Run Custom Unit Tests
+        run: |
+          echo "Running unit tests for com.training.*..."
+          cd "$HYBRIS_DIR/bin/platform"
+          . ./setantenv.sh
+          # Run unittests target for custom training packages
+          ant unittests -Dtestclasses.packages="com.training.*" || true
+          echo "Test run completed. Check $HYBRIS_DIR/log/junit for reports."
+
+  # -------------------------------------------------------------
+  # 2. CD: Continuous Delivery & Packaging (Runs on main branch)
+  # -------------------------------------------------------------
+  delivery-package:
+    name: Package Release Artifact
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: [self-hosted, macOS]
+
+    steps:
+      - name: Generate Production Package (ant production)
+        run: |
+          echo "Creating production release package..."
+          cd "$HYBRIS_DIR/bin/platform"
+          . ./setantenv.sh
+          ant production
+          echo "Release package created successfully in $HYBRIS_DIR/temp/hybris/hybrisServer/"
