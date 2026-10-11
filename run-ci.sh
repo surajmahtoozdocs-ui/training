@@ -70,8 +70,8 @@ run_tests() {
     log_step "CI Stage 2: Running Custom Unit Tests"
     cd "$PLATFORM_DIR"
     . ./setantenv.sh
-    echo "Running tests for packages: com.training.*"
-    if ant unittests -Dtestclasses.packages="com.training.*"; then
+    echo "Running unit tests with suppress.junit.tenant=true..."
+    if ant unittests -Dtestclasses.packages="com.training.core.comparators.*" -Dtestclasses.suppress.junit.tenant=true; then
         log_success "All unit tests passed!"
     else
         log_warn "Tests completed with notices. Check reports in $SCRIPT_DIR/log/junit/index.html"

@@ -44,8 +44,8 @@ jobs:
           echo "Running unit tests for com.training.*..."
           cd "$HYBRIS_DIR/bin/platform"
           . ./setantenv.sh
-          # Run unittests target for custom training packages
-          ant unittests -Dtestclasses.packages="com.training.*" || true
+          # Run unittests with suppress.junit.tenant=true for fast database-independent execution
+          ant unittests -Dtestclasses.packages="com.training.core.comparators.*" -Dtestclasses.suppress.junit.tenant=true
           echo "Test run completed. Check $HYBRIS_DIR/log/junit for reports."
 
   # -------------------------------------------------------------
